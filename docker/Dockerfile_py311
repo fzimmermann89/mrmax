@@ -1,0 +1,22 @@
+ARG BASE_IMAGE=ubuntu:22.04
+FROM ${BASE_IMAGE} AS base
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+ARG PYTHON="python3.11"
+
+# install python
+COPY docker/install_system.sh .
+RUN bash install_system.sh && rm install_system.sh
+
+# install mrmax dependencies
+COPY docker/install_dependencies.sh pyproject.toml src/mrmax/VERSION ./
+RUN ./install_dependencies.sh
+
+# install mrmax
+# forces rebuild on any change in the mrmax directory
+COPY . /mrmax/
+RUN python -m pip install  "/mrmax[notebooks]" --no-cache-dir --upgrade --upgrade-strategy "eager" && rm -rf /mrmax
+
+# set user
+USER runner

@@ -1,0 +1,20 @@
+/* Default font size */
+html {
+    --pst-font-size-base: 15px;
+}
+
+/* Adjust the width of the content window */
+.wy-nav-content {
+    max-width: 75% !important;
+}
+
+/* new line after each property */
+dl.py.property {
+    display: block !important;
+}
+
+/* example notebooks outputs */
+.output>.highlight {
+    background: #efefef !important;
+    color: inherit !important;
+}
